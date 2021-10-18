@@ -137,7 +137,6 @@ init { hasGeoLocation } =
                 Unavailable
       , trucks = Nothing
       }
-      -- , Cmd.none
     , Http.get
         { url = "https://data.sfgov.org/api/views/rqzj-sfat/rows.csv"
         , expect =
@@ -258,12 +257,12 @@ distance : Coords -> Coords -> Float
 distance a b =
     let
         dlat =
-            abs (a.latitude - b.latitude)
+            a.latitude - b.latitude
 
         dlng =
-            abs (a.longitude - b.longitude)
+            a.longitude - b.longitude
     in
-    dlat * dlat - dlng * dlng
+    dlat * dlat + dlng * dlng
 
 
 viewTrucks : List Truck -> Element.Element Msg
