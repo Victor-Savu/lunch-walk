@@ -2,7 +2,6 @@ port module Main exposing (main)
 
 import Browser
 import Csv.Decode as CD
-import Debug exposing (toString)
 import Element
 import Element.Border
 import Element.Input
@@ -97,7 +96,7 @@ literal dec val conc =
                     Json.Decode.succeed conc
 
                 else
-                    Json.Decode.fail ("Expected literal " ++ toString val ++ " got " ++ toString res)
+                    Json.Decode.fail ("Wrong value")
             )
 
 
@@ -280,7 +279,7 @@ viewTrucks startPosition =
 
 coordsToString : Coords -> String
 coordsToString { latitude, longitude } =
-    toString latitude ++ "," ++ toString longitude
+    String.fromFloat latitude ++ "," ++ String.fromFloat longitude
 
 
 googleMapsPathUrl : Coords -> Coords -> String
