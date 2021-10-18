@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,39 +8,44 @@
     <title>Lunch Walk</title>
     <script src="main.js"></script>
 </head>
+
 <body>
     <div id="app"></div>
 </body>
 
 <script type="text/javascript">
-const app = Elm.Main.init({
-    node: document.getElementById("app"),
-    flags: { hasGeoLocation: !!navigator.geolocation }
-})
+    const app = Elm.Main.init({
+        node: document.getElementById("app"),
+        flags: { hasGeoLocation: !!navigator.geolocation }
+    })
 
-app.ports.sendMessage.subscribe(function(message) {
-    navigator.geolocation.getCurrentPosition(
-        coordinates => app.ports.messageReceiver.send({type: "newPosition", latitude: coordinates.coords.latitude, longitude: coordinates.coords.longitude}),
-        error => {
-            let reason;
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    reason = "denied"
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    reason = "unavailable"
-                    break;
-                case error.TIMEOUT:
-                    reason = "timeout"
-                    break;
-                case error.UNKNOWN_ERROR:
-                    reason = "unknown"
-                    break;
+    app.ports.sendMessage.subscribe(function (message) {
+        navigator.geolocation.getCurrentPosition(
+            coordinates => app.ports.messageReceiver.send({
+                type: "newPosition",
+                latitude: coordinates.coords.latitude,
+                longitude: coordinates.coords.longitude
+            }),
+            error => {
+                let reason;
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        reason = "denied"
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        reason = "unavailable"
+                        break;
+                    case error.TIMEOUT:
+                        reason = "timeout"
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        reason = "unknown"
+                        break;
+                }
+                app.ports.messageReceiver.send({ type: "positionError", reason })
             }
-            app.ports.messageReceiver.send({type: "positionError", reason })
-        }
-    )
-})
+        )
+    })
 </script>
 
 </html>

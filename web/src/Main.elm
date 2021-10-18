@@ -11,6 +11,8 @@ import Http
 import Json.Decode exposing (Decoder)
 import Json.Decode.Pipeline
 import Json.Encode
+import Material.Icons as Icons
+import Material.Icons.Types exposing (Coloring(..))
 
 
 type Location
@@ -241,7 +243,7 @@ view model =
                         Element.text "Waiting for trucks"
 
                     Just trks ->
-                        viewTrucks <| List.take 5 <| List.sortBy (\{ location } -> distance location crds) <| trks
+                        viewTrucks crds <| List.take 5 <| List.sortBy (\{ location } -> distance location crds) <| trks
 
             Unavailable ->
                 Element.text "Try this app on a device with GPS (like your mobile phone)"
@@ -265,16 +267,37 @@ distance a b =
     dlat * dlat + dlng * dlng
 
 
-viewTrucks : List Truck -> Element.Element Msg
-viewTrucks =
+viewTrucks : Coords -> List Truck -> Element.Element Msg
+viewTrucks startPosition =
     Element.column [ Element.width Element.fill, Element.height Element.fill, Element.spacing 10 ]
-        << List.map viewTruck
+        << List.map (viewTruck startPosition)
 
 
-viewTruck : Truck -> Element.Element Msg
-viewTruck truck =
-    Element.paragraph []
-        [ Element.text <| truck.name ++ " : " ++ truck.address ++ " (" ++ truck.locationDescription ++ ")"
+coordsToString : Coords -> String
+coordsToString { latitude, longitude } =
+    toString latitude ++ "," ++ toString longitude
+
+
+googleMapsPathUrl : Coords -> Coords -> String
+googleMapsPathUrl from to =
+    "https://www.google.com/maps/dir/" ++ coordsToString from ++ "/" ++ coordsToString to
+
+
+viewTruck : Coords -> Truck -> Element.Element Msg
+viewTruck startCoords truck =
+    Element.row []
+        [ Element.el [ Element.centerY ] <|
+            Element.text <|
+                truck.name
+                    ++ " : "
+                    ++ truck.address
+                    ++ " ("
+                    ++ truck.locationDescription
+                    ++ ")"
+        , Element.link [ Element.centerY ]
+            { url = googleMapsPathUrl startCoords truck.location
+            , label = Element.html <| Icons.directions 36 Inherit
+            }
         ]
 
 
