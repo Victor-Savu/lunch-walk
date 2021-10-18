@@ -81,7 +81,11 @@ type MsgFromPort
 
 msgFromPort : Decoder MsgFromPort
 msgFromPort =
-    Json.Decode.oneOf [ Json.Decode.map Ok coords, Json.Decode.map Err geoLocationError ] |> Json.Decode.map GeoCoords
+    Json.Decode.oneOf
+        [ Json.Decode.map Ok coords
+        , Json.Decode.map Err geoLocationError
+        ]
+        |> Json.Decode.map GeoCoords
 
 
 literal : Decoder m -> m -> n -> Decoder n
@@ -250,7 +254,8 @@ view model =
 
             Denied ->
                 Element.column [ Element.width Element.fill, Element.height Element.fill ]
-                    [ Element.paragraph [] [ Element.text "Please allow access to your location. This app is pretty useless otherwise :)" ]
+                    [ Element.paragraph []
+                        [ Element.text "Please allow access to your location. This app is pretty useless otherwise :)" ]
                     , searchNearBy
                     ]
 
@@ -269,7 +274,7 @@ distance a b =
 
 viewTrucks : Coords -> List Truck -> Element.Element Msg
 viewTrucks startPosition =
-    Element.column [ Element.width Element.fill, Element.height Element.fill, Element.spacing 10 ]
+    Element.column [ Element.padding 200, Element.spacing 10 ]
         << List.map (viewTruck startPosition)
 
 
@@ -286,18 +291,15 @@ googleMapsPathUrl from to =
 viewTruck : Coords -> Truck -> Element.Element Msg
 viewTruck startCoords truck =
     Element.row []
-        [ Element.el [ Element.centerY ] <|
-            Element.text <|
-                truck.name
-                    ++ " : "
-                    ++ truck.address
-                    ++ " ("
-                    ++ truck.locationDescription
-                    ++ ")"
-        , Element.link [ Element.centerY ]
+        [ Element.link [ Element.centerY ]
             { url = googleMapsPathUrl startCoords truck.location
-            , label = Element.html <| Icons.directions 36 Inherit
+            , label = Element.html <| Icons.directions 48 Inherit
             }
+        , Element.column []
+            [ Element.text truck.name
+            , Element.text truck.address
+            , Element.text truck.locationDescription
+            ]
         ]
 
 
