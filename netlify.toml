@@ -1,11 +1,9 @@
 [build]
-  base = "web"
   command = "elm make --optimize --output static/main.js src/Main.elm"
   publish = "static"
 
 [dev]
   framework = "#custom"
-  base = "web"
   command = "elm-live src/Main.elm --dir=./static/ -- --output ./static/main.js --debug"
   targetPort = 8000
   publish = "static"
