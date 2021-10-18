@@ -1,0 +1,15 @@
+{
+  "name": "lunch-walk",
+  "version": "1.0.0",
+  "description": "Pass by the food truck on your Lunch Walk",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Victor-Nicolae Savu",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "elm": "^0.19.1-5",
+    "elm-live": "^4.0.2"
+  }
+}
