@@ -13,6 +13,13 @@ At the moment, the project is a Single Page App (SPA) written mainly in [Elm](ht
 
 To deploy a development version of the app on your local machine (with live reload and running the amazing time travelling debugger), clone this directory, install `netlify-cli` (`npm install -g netlify-cli`) and then run `netlify dev` in the root directory.
 
+### Deploy it to Netlify
+
+You can deploy your own copy of this application to Netlify by clicking the button below.
+
+<a href="https://app.netlify.com/start/deploy?repository=https://github.com/Victor-Savu/lunch-walk"><img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify"></a>
+
+
 ### Technologies
 
 #### [Elm](https://elm-lang.org)
