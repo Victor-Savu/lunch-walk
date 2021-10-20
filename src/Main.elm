@@ -143,7 +143,7 @@ init { hasGeoLocation } =
       , trucks = Nothing
       }
     , Http.get
-        { url = "https://data.sfgov.org/api/views/rqzj-sfat/rows.csv"
+        { url = "/.netlify/functions/truck-info"
         , expect =
             CD.decodeCsv CD.FieldNamesFromFirstRow trucks
                 |> Result.map
@@ -183,7 +183,7 @@ trucks =
         |> CD.pipeline (CD.field "Latitude" CD.float)
         |> CD.pipeline (CD.field "Longitude" CD.float)
         |> CD.pipeline
-            (CD.field "Schedule"
+            (CD.field "dayshours"
                 (CD.string
                     |> CD.map
                         (\val ->

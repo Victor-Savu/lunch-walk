@@ -1,7 +1,5 @@
 static/main.js
 elm-stuff/
 *.csv
-netlify/
-# Local Netlify folder
 .netlify
 node_modules/

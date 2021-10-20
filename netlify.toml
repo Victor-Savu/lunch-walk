@@ -1,9 +1,14 @@
 [build]
   command = "elm make --optimize --output static/main.js src/Main.elm"
+  functions = "functions"
   publish = "static"
 
 [dev]
   framework = "#custom"
-  command = "elm-live src/Main.elm --dir=./static/ -- --output ./static/main.js --debug"
+  command = "elm-live src/Main.elm --dir=./static/ --proxy-prefix=/.netlify/functions/ --proxy-host=http://localhost:34567/.netlify/functions/ -- --output ./static/main.js --debug"
+  functionsPort = 34567
   targetPort = 8000
   publish = "static"
+
+[context]
+  environment = { NETLIFY_EXPERIMENTAL_BUILD_RUST_SOURCE = "true" }
